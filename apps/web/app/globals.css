@@ -1,50 +1,111 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /*brand colours mapping*/
+        /* #FAFAF8 */
+        --background: 60 20% 98%;
+
+        /* #242424 */
+        --foreground: 0 0% 14%;
+
+        /* #FFE566 */
+        --primary: 48 100% 70%;
+        --primary-foreground: 0 0% 14%;
+
+        /* #FFD23A */
+        --secondary: 45 100% 61%;
+        --secondary-foreground: 0 0% 14%;
+
+        /* #6F6F6F */
+        --muted: 0 0% 44%;
+        --muted-foreground: 0 0% 14%;
+
+        /* #E8E8E8 */
+        --border: 0 0% 91%;
+        --input: 0 0% 91%;
+
+        /* #FFE566 */
+        --ring: 48 100% 70%;
+
+        /* #FFFFFF */
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 14%;
+
+        /* #FFFFFF */
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 14%;
+
+        /* #FFD23A */
+        --accent: 45 100% 61%;
+        --accent-foreground: 0 0% 14%;
+
+        /* #FFE566 */
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+
+        --radius: 0.5rem;
+    }
+
+    body {
+        @apply bg-background text-foreground font-sans;
+        font-family: 'Syne', sans-serif;
+    }
+
+    /* ---------------- Dark mode ---------------- */
+
+    .dark {
+        /* #161616 */
+        --background: 0 0% 9%;
+        --foreground: 0 0% 98%;
+
+        /* #FFE566 */
+        --primary: 48 100% 70%;
+        --primary-foreground: 0 0% 9%;
+
+        /* #FFD23A */
+        --secondary: 45 100% 61%;
+        --secondary-foreground: 0 0% 9%;
+
+        /* #6F6F6F */
+        --muted: 0 0% 44%;
+        --muted-foreground: 0 0% 70%;
+
+        /* #E8E8E8 */
+        --border: 0 0% 91%;
+        --input: 0 0% 91%;
+
+        /* #FFE566 */
+        --ring: 48 100% 70%;
+
+        /* #161616 */
+        --card: 0 0% 9%;
+        --card-foreground: 0 0% 98%;
+
+        /* #161616 */
+        --popover: 0 0% 9%;
+        --popover-foreground: 0 0% 98%;
+
+        /* #FFD23A */
+        --accent: 45 100% 61%;
+        --accent-foreground: 0 0% 9%;
+
+        /* #FFE566 */
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+    }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@layer base {
+    * {
+        @apply border-border;
+    }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.imgDark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
+    body {
+        @apply bg-background text-foreground;
+    }
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { NavBar } from "@/components/NavBar";
 
 
 export const metadata: Metadata = {
@@ -8,15 +9,18 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-      </body>
-    </html>
-  );
+                                       children,
+                                   }: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="en">
+        <body className="bg-brand-bg min-h-screen">
+        <NavBar />
+        <main className="pt-20">
+            {children}
+        </main>
+        </body>
+        </html>
+    );
 }

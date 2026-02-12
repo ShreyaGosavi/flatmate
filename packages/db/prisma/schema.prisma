@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id                 String                     @id
+  title              String
+  description        String
+  propertyType       PropertyType
+  rent               Int
+  deposit            Int
+  maintenance        Int
+  isAvailable        Boolean                    @default(true)
+  sharing            Int
+  genderPreference   Gender
+  bhk                BHK
+  suitableFitFor     String?
+  addressLine1       String
+  addressLine2       String?
+  locality           String
+  city               String
+  district           String
+  state              String
+  country            String
+  postalCode         String
+  latitude           Decimal                    @db.Decimal(10, 8)
+  longitude          Decimal                    @db.Decimal(11, 8)
+  formattedAddress   String?
+  placeId            String?                    @unique
+  ownerId            String
+  visitingHrs        String?
+  ownershipProof     String?
+  verifiedAt         DateTime?
+  amenities          AmenityType[]
+  rules              Json?
+  images             String[]
+  createdAt          DateTime                   @default(now())
+  updatedAt          DateTime
+  verificationStatus PropertyVerificationStatus @default(PENDING)
+  User               User                       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  PropertyStats      PropertyStats?
+  SavedProperty      SavedProperty[]
+
+  @@index([bhk])
+  @@index([city, locality])
+  @@index([city, propertyType, rent, isAvailable])
+  @@index([createdAt])
+  @@index([genderPreference])
+  @@index([isAvailable])
+  @@index([latitude, longitude])
+  @@index([ownerId])
+  @@index([propertyType])
+  @@index([rent])
+}
+
+model PropertyStats {
+  id         String   @id
+  propertyId String   @unique
+  viewCount  Int      @default(0)
+  saveCount  Int      @default(0)
+  Property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([saveCount])
+  @@index([viewCount])
+}
+
+model SavedProperty {
+  id         String   @id
+  userId     String
+  propertyId String
+  savedAt    DateTime @default(now())
+  Property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@index([propertyId])
+  @@index([savedAt])
+  @@index([userId])
+}
+
+model User {
+  id              String          @id
+  email           String          @unique
+  passwordHash    String
+  username        String          @unique
+  phone           String
+  gender          Gender
+  isEmailVerified Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime
+  isAdmin         Boolean         @default(false)
+  Property        Property[]
+  SavedProperty   SavedProperty[]
+
+  @@index([email])
+  @@index([username])
+}
+
+enum AmenityType {
+  WIFI
+  AC
+  PARKING
+  LAUNDRY
+  GYM
+  POWER_BACKUP
+  WATER_SUPPLY
+  FURNISHED_BED
+  ATTACHED_BATHROOM
+  SECURITY
+  CCTV
+  LIFT
+  PURIFIER
+  OTHERS
+}
+
+enum BHK {
+  ONE_BHK
+  TWO_BHK
+  THREE_BHK
+  FOUR_BHK
+  ONE_RK
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum PropertyType {
+  HOSTEL
+  PG
+  APARTMENT
+  OTHER
+}
+
+enum PropertyVerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}

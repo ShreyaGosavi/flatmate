@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,11 +16,12 @@
   "type": "commonjs",
   "dependencies": {
     "@flatmate/auth": "^1.0.0",
+    "@flatmate/db": "*",
     "@flatmate/email": "^1.0.0",
     "@flatmate/infra": "^1.0.0",
-    "@flatmate/db": "*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "dotenv": "^16.0.3",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "morgan": "^1.10.1"

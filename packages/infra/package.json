@@ -13,7 +13,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@upstash/redis": "^1.36.2"
+    "@upstash/redis": "^1.36.2",
+    "cloudinary": "^2.9.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "*"

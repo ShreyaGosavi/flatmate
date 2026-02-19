@@ -1,0 +1,1 @@
+export const sendEmailVerification = jest.fn().mockResolvedValue(undefined);

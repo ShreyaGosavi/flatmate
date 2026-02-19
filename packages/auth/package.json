@@ -1,10 +1,9 @@
 {
-  "name": "@flatmate/db",
+  "name": "@flatmate/auth",
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,10 +12,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@prisma/client": "^6.19.2",
-    "prisma": "^6.19.2"
+    "@flatmate/db": "^1.0.0",
+    "argon2": "^0.44.0",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*"
+    "@repo/typescript-config": "*",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10"
   }
 }

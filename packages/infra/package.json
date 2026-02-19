@@ -1,6 +1,7 @@
 {
-  "name": "shared",
+  "name": "@flatmate/infra",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,5 +10,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@upstash/redis": "^1.36.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*"
+  }
 }

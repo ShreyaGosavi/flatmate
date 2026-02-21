@@ -1,0 +1,1 @@
+export const verifyJwt = jest.fn().mockReturnValue({ userId: "user-1" });

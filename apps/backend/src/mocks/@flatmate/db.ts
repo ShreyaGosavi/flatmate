@@ -45,3 +45,19 @@ export enum PropertyVerificationStatus {
     VERIFIED = "VERIFIED",
     REJECTED = "REJECTED"
 }
+
+export enum NoticeType {
+    ROOMMATE_NEEDED = "ROOMMATE_NEEDED",
+    SPARE_ITEM_GIVEAWAY = "SPARE_ITEM_GIVEAWAY"
+}
+
+export enum CommunityType {
+    COLLEGE = "COLLEGE",
+    COMPANY = "COMPANY"
+}
+
+export enum RequestStatus {
+    PENDING = "PENDING",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED"
+}

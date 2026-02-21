@@ -127,3 +127,62 @@ export async function sendPropertyRejectedMail(
     `,
     });
 }
+
+export async function sendAdminCommunityRequestMail(data: {
+    communityName: string;
+    type: string;
+    city: string;
+    officialWebsite?: string | null;
+    email?: string | null;
+    ctgId?: string | null;
+    requestedByUsername: string;
+    requestedByEmail: string;
+}) {
+    await sgMail.send({
+        to: process.env.ADMIN_EMAIL!,
+        from: {
+            email: process.env.EMAIL_FROM!,
+            name: "FlatMate.com",
+        },
+        subject: `New Community Request — ${data.communityName}, ${data.city}`,
+        html: `
+            <h3>New Community Request</h3>
+            <p><strong>Community Name:</strong> ${data.communityName}</p>
+            <p><strong>Type:</strong> ${data.type}</p>
+            <p><strong>City:</strong> ${data.city}</p>
+            <p><strong>Official Website:</strong> ${data.officialWebsite ?? "Not provided"}</p>
+            <p><strong>Email:</strong> ${data.email ?? "Not provided"}</p>
+            <p><strong>CTG ID:</strong> ${data.ctgId ?? "Not provided"}</p>
+            <hr />
+            <p><strong>Requested by:</strong> ${data.requestedByUsername} (${data.requestedByEmail})</p>
+            <p>Review and approve or reject this request from the admin panel.</p>
+        `,
+    });
+}
+
+export async function sendCommunityRequestStatusMail(data: {
+    userEmail: string;
+    communityName: string;
+    city: string;
+    status: "APPROVED" | "REJECTED";
+}) {
+    const isApproved = data.status === "APPROVED";
+
+    await sgMail.send({
+        to: data.userEmail,
+        from: {
+            email: process.env.EMAIL_FROM!,
+            name: "FlatMate.com",
+        },
+        subject: `Your Community Request was ${isApproved ? "Approved 🎉" : "Rejected"}`,
+        html: `
+            <h3>Community Request Update</h3>
+            <p>Your request for <strong>${data.communityName}, ${data.city}</strong> has been <strong>${data.status}</strong>.</p>
+            ${isApproved
+            ? `<p>The community is now live! Go join it on FlatMate and start posting notices.</p>`
+            : `<p>Unfortunately your request could not be approved at this time. You may submit a new request with correct details.</p>`
+        }
+            <p>— Team FlatMate</p>
+        `,
+    });
+}

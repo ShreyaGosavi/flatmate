@@ -7,6 +7,89 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+// ============================================
+// COMMUNITY NOTICEBOARD MODELS
+// ============================================
+
+model Community {
+  id              String            @id @default(cuid())
+  name            String
+  type            CommunityType
+  city            String
+  officialWebsite String?
+  email           String?
+  ctgId           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  members  CommunityMember[]
+  notices  Notice[]
+
+  @@unique([name, city])
+  @@index([city])
+  @@index([name])
+  @@index([type])
+}
+
+model CommunityMember {
+  id          String    @id @default(cuid())
+  userId      String
+  communityId String
+  joinedAt    DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, communityId])
+  @@index([communityId])
+  @@index([userId])
+}
+
+model CommunityRequest {
+  id              String        @id @default(cuid())
+  requestedById   String
+  communityName   String
+  type            CommunityType
+  city            String
+  officialWebsite String?
+  email           String?
+  ctgId           String?
+  status          RequestStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  requestedBy User @relation(fields: [requestedById], references: [id], onDelete: Cascade)
+
+  @@unique([communityName, city])
+  @@index([requestedById])
+  @@index([status])
+}
+
+model Notice {
+  id          String     @id @default(cuid())
+  communityId String
+  postedById  String
+  type        NoticeType
+  title       String
+  description String
+  metadata    Json?
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  postedBy  User      @relation(fields: [postedById], references: [id], onDelete: Cascade)
+
+  @@index([communityId])
+  @@index([communityId, type])
+  @@index([createdAt])
+  @@index([isActive])
+  @@index([postedById])
+}
+
+// ============================================
+// PROPERTY MODELS
+// ============================================
 
 model Property {
   id                 String                     @id @default(cuid())
@@ -41,7 +124,7 @@ model Property {
   rules              Json?
   images             String[]
   createdAt          DateTime                   @default(now())
-  updatedAt          DateTime
+  updatedAt          DateTime                   @updatedAt
   verificationStatus PropertyVerificationStatus @default(PENDING)
   User               User                       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   PropertyStats      PropertyStats?
@@ -84,6 +167,9 @@ model SavedProperty {
   @@index([savedAt])
   @@index([userId])
 }
+// ============================================
+// USERS MODELS
+// ============================================
 
 model User {
   id              String          @id @default(cuid())
@@ -94,14 +180,22 @@ model User {
   gender          Gender
   isEmailVerified Boolean         @default(false)
   createdAt       DateTime        @default(now())
-  updatedAt       DateTime
+  updatedAt       DateTime        @updatedAt
   isAdmin         Boolean         @default(false)
   Property        Property[]
   SavedProperty   SavedProperty[]
+  CommunityMember  CommunityMember[]
+    CommunityRequest CommunityRequest[]
+    Notice           Notice[]
+
 
   @@index([email])
   @@index([username])
 }
+
+// ============================================
+// ENUMS
+// ============================================
 
 enum AmenityType {
   WIFI
@@ -143,5 +237,21 @@ enum PropertyType {
 enum PropertyVerificationStatus {
   PENDING
   VERIFIED
+  REJECTED
+}
+
+enum NoticeType {
+  ROOMMATE_NEEDED
+  SPARE_ITEM_GIVEAWAY
+}
+
+enum CommunityType {
+  COLLEGE
+  COMPANY
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
   REJECTED
 }

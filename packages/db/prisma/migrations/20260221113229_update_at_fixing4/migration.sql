@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Property" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "verificationStatus" SET DEFAULT 'PENDING';

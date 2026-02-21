@@ -91,7 +91,7 @@ export const register = async (req: Request, res: Response) => {
             username,
             phone,
             gender: gender.toUpperCase() as "MALE" | "FEMALE",
-            isEmailVerified: true,
+            isEmailVerified: true
         },
     });
 

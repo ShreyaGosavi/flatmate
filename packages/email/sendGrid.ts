@@ -5,7 +5,7 @@ export const configureEmail = (apiKey: string) => {
 };
 
 export async function sendEmailVerification(to: string, token: string) {
-    const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${token}`;
+    const verifyUrl = `${process.env.APP_URL}/auth/verify-email?token=${token}`;
 
     await sgMail.send({
         to,

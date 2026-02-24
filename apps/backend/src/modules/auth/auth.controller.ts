@@ -67,7 +67,6 @@ export const register = async (req: Request, res: Response) => {
     if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.flatten() });
     }
-
     const { email, password, username, phone, gender } = parsed.data;
 
     const verified = await redis.get(`email:verified:${email}`);

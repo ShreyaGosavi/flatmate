@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.route";
 import communityRoutes from "./modules/community/community.route";
 import adminRoutes from "./modules/admin/admin.route";
+import {configureEmail} from "@flatmate/email";
 
 const app = express();
 
@@ -18,14 +19,15 @@ app.use(cors({
     credentials: true,
 }));
 
+const apiKey = process.env.SENDGRID_API_KEY;
+
+if (!apiKey) {
+    throw new Error("SENDGRID_API_KEY is missing");
+}
+
+configureEmail(apiKey);
+
 app.use("/auth", authRoutes);
-
-app.get("/health", (_req, res) => {
-    res.json({ status: "ok" });
-});
-
 app.use("/communities", communityRoutes);
-
-
 app.use("/admin", adminRoutes);
 export default app;
